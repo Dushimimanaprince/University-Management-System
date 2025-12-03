@@ -516,7 +516,7 @@
                 <h2>TPU University</h2>
                 <p>Teacher Portal</p>
             </div>
-        </div>
+        </div><a href="{% url 'signin' %}" style="text-decoration:none; color:black;">
         <button class="logout-btn" onclick="logout()">
             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="currentColor">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -525,11 +525,12 @@
             </svg>
             Logout
         </button>
+        </a>
     </nav>
 
     <div class="container">
         <div class="welcome-section">
-            <h1>Welcome Back, Dr. Sarah Johnson</h1>
+            <h1>Welcome Back, {{lecturer.first_name}} {{lecturer.last_name}}</h1>
             <p>Manage your courses and track student progress</p>
         </div>
 
@@ -542,7 +543,7 @@
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
                 </div>
-                <div class="stat-card-value">6</div>
+                <div class="stat-card-value">{{count}}</div>
                 <div class="stat-card-label">Active Courses</div>
             </div>
 
@@ -555,7 +556,7 @@
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                 </div>
-                <div class="stat-card-value">234</div>
+                <div class="stat-card-value">{{students}}</div>
                 <div class="stat-card-label">Total Students</div>
             </div>
 
@@ -599,79 +600,32 @@
                 </div>
                 <div class="info-row">
                     <span class="info-label">Full Name</span>
-                    <span class="info-value">DR. SARAH JOHNSON</span>
+                    <span class="info-value">{{lecturer.first_name}} {{lecturer.last_name}}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Teacher ID</span>
-                    <span class="info-value">T-2024-0156</span>
+                    <span class="info-value">{{lecturer.LecturerID}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Department</span>
-                    <span class="info-value">Computer Science</span>
+                    <span class="info-label">Degree</span>
+                    <span class="info-value">{{lecturer.degree|upper}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Faculty</span>
-                    <span class="info-value">Engineering & Technology</span>
+                    <span class="info-label">Gender</span>
+                    <span class="info-value">{{lecturer.gender|upper}}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Email</span>
-                    <span class="info-value">s.johnson@tpu.edu</span>
+                    <span class="info-value">{{lecturer.email}}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Phone</span>
-                    <span class="info-value">+1 (555) 123-4567</span>
+                    <span class="info-value">{{lecturer.phone}}</span>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Office</span>
-                    <span class="info-value">Building A, Room 304</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Specialization</span>
-                    <span class="info-value">Artificial Intelligence</span>
-                </div>
+
             </div>
 
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="card-icon green">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                    </div>
-                    <h3>Schedule & Availability</h3>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Office Hours</span>
-                    <span class="info-value">Mon-Fri, 2:00 PM - 4:00 PM</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Teaching Hours</span>
-                    <span class="info-value">18 Hours/Week</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Academic Year</span>
-                    <span class="info-value">2024-2025</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Current Semester</span>
-                    <span class="info-value">Fall 2024</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Years of Experience</span>
-                    <span class="info-value">12 Years</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Qualifications</span>
-                    <span class="info-value">Ph.D. in Computer Science</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Research Area</span>
-                    <span class="info-value">Machine Learning, NLP</span>
-                </div>
-            </div>
+            
         </div>
 
         <!-- Courses Section -->
@@ -770,60 +724,18 @@
     <script>
         // Sample course data
         const courses = [
+        {% for enroll in enrollment%}
             {
-                code: 'CS301',
-                title: 'Data Structures & Algorithms',
-                description: 'Advanced study of data structures, algorithm design, and complexity analysis',
-                students: 45,
-                credits: 4,
+
+                code: '{{enroll.courseCode}}',
+                title: '{{enroll.courseName}}',
+                students: '{{enroll.enrollment_set.count}}' ,
+                credits: '{{enroll.credits}}',
                 semester: 'Fall 2024',
-                schedule: 'Mon, Wed, Fri - 9:00 AM'
+                schedule: '{{enroll.courseDay|upper}} - {{enroll.courseTime}}'
             },
-            {
-                code: 'CS402',
-                title: 'Machine Learning',
-                description: 'Introduction to machine learning concepts, supervised and unsupervised learning',
-                students: 38,
-                credits: 3,
-                semester: 'Fall 2024',
-                schedule: 'Tue, Thu - 2:00 PM'
-            },
-            {
-                code: 'CS205',
-                title: 'Database Management Systems',
-                description: 'Design and implementation of database systems, SQL, and data modeling',
-                students: 52,
-                credits: 4,
-                semester: 'Fall 2024',
-                schedule: 'Mon, Wed - 11:00 AM'
-            },
-            {
-                code: 'CS501',
-                title: 'Artificial Intelligence',
-                description: 'Fundamentals of AI, search algorithms, knowledge representation, and reasoning',
-                students: 35,
-                credits: 3,
-                semester: 'Fall 2024',
-                schedule: 'Tue, Thu - 4:00 PM'
-            },
-            {
-                code: 'CS350',
-                title: 'Software Engineering',
-                description: 'Software development lifecycle, design patterns, and project management',
-                students: 42,
-                credits: 3,
-                semester: 'Fall 2024',
-                schedule: 'Wed, Fri - 1:00 PM'
-            },
-            {
-                code: 'CS490',
-                title: 'Computer Vision',
-                description: 'Image processing, object detection, and deep learning for computer vision',
-                students: 28,
-                credits: 3,
-                semester: 'Fall 2024',
-                schedule: 'Mon, Thu - 3:00 PM'
-            }
+        {%endfor%}
+
         ];
 
         // Load courses on page load
@@ -850,7 +762,7 @@
                     <div class="course-card-header">
                         <div>
                             <div class="course-title">${course.title}</div>
-                            <div class="course-description">${course.description}</div>
+
                         </div>
                         <div class="course-code-badge">${course.code}</div>
                     </div>
@@ -879,14 +791,7 @@
                             <div class="stat-value">${course.students}</div>
                             <div class="stat-label">Students</div>
                         </div>
-                        <div class="stat-box">
-                            <div class="stat-value">${assignments}</div>
-                            <div class="stat-label">Assignments</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">${avgGrade}%</div>
-                            <div class="stat-label">Avg Grade</div>
-                        </div>
+
                     </div>
                 </div>
             `;
@@ -899,6 +804,7 @@
             }
         }
 
+
         function addNewCourse() {
             alert('Opening Add New Course form...');
             // window.location.href = 'add-course.html';
@@ -906,7 +812,9 @@
 
         function viewCourseDetails(courseCode) {
             alert(`Opening details for course: ${courseCode}`);
-            // window.location.href = `course-details.html?code=${courseCode}`;
+            const baseurl= "{% url 'course_grade' 'tmp' %}";
+            const url= baseurl.replace('tmp', courseCode);
+            window.location.href=url
         }
 
         function manageAssignments() {

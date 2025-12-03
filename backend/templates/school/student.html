@@ -392,6 +392,7 @@
                 <p>Student Portal</p>
             </div>
         </div>
+        <a href="{% url 'signin' %}" style="text-decoration:none; color:black;">
         <button class="logout-btn" onclick="logout()">
             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="currentColor">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -400,6 +401,7 @@
             </svg>
             Logout
         </button>
+        </a>
     </nav>
 
     <div class="container">
@@ -509,7 +511,7 @@
         </div>
 
         <!-- Action Buttons -->
-         <a href= "{% url 'add_course' %}"> 
+         <a href= "{% url 'add_course' %}" style="text-decoration:none; color:black;"> 
         <div class="action-buttons">
             
             <div class="action-btn blue" onclick="addCourse()">

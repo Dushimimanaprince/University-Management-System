@@ -551,9 +551,11 @@
 
             <div class="signin-section">
                 <p>Already have an account?</p>
-                <button type="button" class="signin-btn" onclick="window.location.href='sign-in.html'">
+                <a href="{% url 'signin' %}" style="text-decoration:none; color:black;">
+                <button type="button" class="signin-btn">
                     Sign In
                 </button>
+                </a>
             </div>
         </div>
     </div>

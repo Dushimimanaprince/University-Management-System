@@ -73,6 +73,14 @@ class Student(models.Model):
         return f" {self.first_name} {self.last_name}"
 
 
+class Room(models.Model):
+    room_number = models.CharField(max_length=10, unique=True)
+    building = models.CharField(max_length=50)
+    capacity = models.IntegerField()
+    
+    def __str__(self):
+        return f"{self.building} - {self.room_number}"
+
 
 class Course(models.Model):
     DAY_CHOICES = [
@@ -90,13 +98,15 @@ class Course(models.Model):
         ('18:00', '18:00'),
     ]
 
-    department= models.ForeignKey(Department, on_delete=models.CASCADE)
+    department= models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True
+    )
     courseCode= models.CharField(max_length=12, unique=True)
-    courseName= models.CharField(max_length=25)
+    courseName= models.CharField(max_length=45)
     courseDay=  models.CharField(max_length=20, choices=DAY_CHOICES)
     courseTime=  models.CharField(max_length=20, choices=TIME_CHOICES)
-    lecturer= models.ManyToManyField(Lecturer)
+    lecturer= models.ManyToManyField(Lecturer, related_name='courses')
     credits= models.PositiveBigIntegerField(default=3)
+    room= models.ForeignKey(Room, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f" {self.courseCode} --> {self.courseName}"
@@ -107,6 +117,7 @@ class Enrollment(models.Model):
     student= models.ForeignKey(Student,on_delete=models.CASCADE)
     course= models.ForeignKey(Course,on_delete=models.CASCADE)
     enrollDate= models.DateField(auto_now_add=True)
+    active= models.BooleanField(default=True)
 
     class Meta:
         unique_together=('student', 'course')
@@ -117,7 +128,12 @@ class Enrollment(models.Model):
 class Grade(models.Model):
 
     enrollment= models.OneToOneField(Enrollment, on_delete=models.CASCADE)
-    score= models.IntegerField()
+    assignment= models.FloatField(default=0)
+    quiz= models.FloatField(default=0)
+    attendance=models.FloatField(default=0)
+    mid_term= models.FloatField(default=0)
+    final_exam= models.FloatField(default=0)
+    score= models.FloatField(default=0)
     rating= models.CharField(max_length=2)
 
     def __str__(self):
@@ -131,13 +147,7 @@ class EmailValidation(models.Model):
     def __str__(self):
         return f"{self.email} role {self.role}"
     
-class Room(models.Model):
-    room_number = models.CharField(max_length=10, unique=True)
-    building = models.CharField(max_length=50)
-    capacity = models.IntegerField()
-    
-    def __str__(self):
-        return f"{self.building} - {self.room_number}"
+
 
 class Finance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

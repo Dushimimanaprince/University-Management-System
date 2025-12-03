@@ -6,7 +6,6 @@ from django.contrib.auth import login,logout
 from .forms import SignupForm
 from django.http import HttpResponse
 
-
 def register(request):
 
     if request.method == "POST":
@@ -97,7 +96,7 @@ def register(request):
                     gender=gender
                 )
             login(request, user)
-            return redirect("index")
+            return redirect("signin")
 
     else:
         form = SignupForm()
@@ -108,3 +107,41 @@ def register(request):
         'form': form,
         'departmentz': departmentz
     })
+
+def signin(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data= request.POST)
+        if form.is_valid():
+            user= form.get_user()
+            login(request,user)
+            if hasattr (user,'student'):
+                return redirect('index')
+            elif hasattr(user,'lecturer'):
+                return redirect('teacher')
+            elif hasattr(user, 'admin'):
+                return redirect('admin')
+            else:
+                return HttpResponse("""
+                    <script>
+                        alert('You do not have a valid role!');
+                        window.location.href='/signin/';
+                    </script>
+                """)
+
+        else:
+            # Wrong credentials
+            return HttpResponse("""
+                <script>
+                    alert('Wrong username or password!');
+                    window.location.href='/signin/';
+                </script>
+            """)
+
+    else:
+        form = AuthenticationForm()
+
+    context=  {'form': form}
+
+    return render(request, 'school/login.html',context)
+
+
