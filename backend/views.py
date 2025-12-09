@@ -40,12 +40,19 @@ def addCourse(request):
         
     enrollment= Enrollment.objects.filter(student=student).select_related('course')
     courses= Course.objects.all()
+
+    
     context= {
         'courses':courses,
         'enrollment':enrollment
     }
     return render(request, 'school/addCourse.html', context)
 
+def delete_course(request, id):
+    student= get_object_or_404(Student, user=request.user)
+    enrollment= get_object_or_404(Enrollment, student=student, id=id)
+    enrollment.delete()
+    return redirect('add_course')
 
 @login_required
 def teachers(request):
@@ -237,3 +244,22 @@ def course_grades(request,courseCode):
     }
 
     return render(request,'school/grades.html',context)
+
+def transcript(request):
+    students= get_object_or_404(Student, user=request.user) 
+    enrollment= Enrollment.objects.filter(student= students)
+    grades= Grade.objects.filter(enrollment__in=enrollment).select_related('enrollment__course')
+
+    total_grade=0
+    for g in grades:
+        total_grade += (g.score /100)*4
+    student_gpa= total_grade/grades.count()
+    credits= sum(g.enrollment.course.credits for g in grades)
+
+
+    context={'students':students,
+             'grades':grades,
+             'gpa': student_gpa,
+             'credits':credits}
+
+    return render(request, 'school/transcript.html',context)
