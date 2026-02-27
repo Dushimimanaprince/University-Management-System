@@ -114,7 +114,7 @@ http://127.0.0.1:8000/
 - Improved transaction handling and error feedback
 - Added atomic wallet updates and finance status tracking
 - Fixed redirect + POST issues with Django settings
-- Micro-Finance repo: [Link Text](https://github.com/Dushimimanaprince/Micro-Finance-Django)
+[Link Text]- Micro-Finance repo:(https://github.com/Dushimimanaprince/Micro-Finance-Django)
 
 ---
 
