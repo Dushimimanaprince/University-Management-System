@@ -108,6 +108,15 @@ http://127.0.0.1:8000/
 
 ---
 
+## 🆕 February 2026 Enhancements
+
+- Integrated a dedicated micro-finance REST API for payments
+- Improved transaction handling and error feedback
+- Added atomic wallet updates and finance status tracking
+- Fixed redirect + POST issues with Django settings
+
+---
+
 ## 🤝 Contributing
 
 Pull requests are welcome!  
