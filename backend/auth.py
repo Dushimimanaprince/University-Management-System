@@ -129,7 +129,7 @@ def signin(request):
                 """)
 
         else:
-            # Wrong credentials
+            
             return HttpResponse("""
                 <script>
                     alert('Wrong username or password!');

@@ -242,6 +242,28 @@
             font-weight: 600;
             border: 1px solid #333;
         }
+        .cancel-btn {
+            padding: 16px;
+            background: transparent;
+            border: 2px solid #444;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #1a1a1a;
+            border-color: #666;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn:active {
+            transform: translateY(0);
+        }
+
 
         .fees-summary {
             display: grid;
@@ -494,94 +516,85 @@
                 </div>
                 <h3>Fees Summary</h3>
             </div>
+            {% for finance in finances %}
             <div class="fees-summary">
+
                 <div class="fees-box total">
                     <div class="fees-label">Total Fees</div>
                     <div class="fees-amount">RWF {{total_fee|intcomma}}</div>
                 </div>
-                <div class="fees-box paid">
-                    <div class="fees-label">Paid Amount</div>
-                    <div class="fees-amount">$8,750</div>
-                </div>
+                   
+                {%if finance.status == "unpaid" %}
                 <div class="fees-box pending">
                     <div class="fees-label">Pending Amount</div>
-                    <div class="fees-amount">$3,750</div>
+                    <div class="fees-amount">RWF {{finance.amount|intcomma}}</div>
+                </div>
+                {%else %}
+                <div class="fees-box paid">
+                    <div class="fees-label">Paid Amount</div>
+                    <div class="fees-amount">RWF {{finance.amount|intcomma}}</div>
                 </div>
             </div>
+            {%endif%}
+            {%endfor%}
         </div>
+<div class="action-buttons">
 
-        <!-- Action Buttons -->
-         <a href= "{% url 'add_course' %}" style="text-decoration:none; color:black;"> 
-        <div class="action-buttons">
-            
-            <div class="action-btn blue" onclick="addCourse()">
-                <div class="action-icon">
-                    
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                    </svg>
-                    
-                </div>
-                <div class="action-content">
-                    
-                    <h4>Add Course</h4>
-                    
-                    <p>Enroll in new courses</p>
-                </div>
-
-            </div>
-            </a>
-
-            <div class="action-btn green" onclick="viewGrades()">
-                <div class="action-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 11 12 14 22 4"></polyline>
-                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                    </svg>
-                </div>
-                <div class="action-content">
-                    <h4>View Grades</h4>
-                    <p>Check your academic performance</p>
-                </div>
-            </div>
-
-            <div class="action-btn purple" onclick="viewTranscript()">
-                <div class="action-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                </div>
-                <a href="{% url 'transc' %}" style="text-decoration:none ">
-                <div class="action-content">
-                    <h4>View Transcript</h4>
-                    <p>Download official transcript</p>
-                </div>
-            </a>
-            </div>
-
-            <div class="action-btn orange" onclick="viewTimetable()">
-                <div class="action-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                </div>
-                <div class="action-content">
-                    <h4>View Timetable</h4>
-                    <p>Check your class schedule</p>
-                </div>
-            </div>
+    <!-- Add Course -->
+    <a href="{% url 'add_course' %}" class="action-btn blue" style="text-decoration:none">
+        <div class="action-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
         </div>
+        <div class="action-content">
+            <h4>Add Course</h4>
+            <p>Enroll in new courses</p>
+        </div>
+    </a>
 
-    </div>
+    <!-- Pay Tuition -->
+    <a href="{% url 'pay_fees' %}" class="action-btn green" style="text-decoration:none">
+        <div class="action-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2">
+                <polyline points="9 11 12 14 22 4"></polyline>
+            </svg>
+        </div>
+        <div class="action-content">
+            <h4>Pay Tuition Fees</h4>
+            <p>Pay according to courses</p>
+        </div>
+    </a>
+
+    <!-- View Transcript -->
+    <a href="{% url 'transc' %}" class="action-btn purple" style="text-decoration:none">
+        <div class="action-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12"></path>
+            </svg>
+        </div>
+        <div class="action-content">
+            <h4>View Transcript</h4>
+            <p>Download official transcript</p>
+        </div>
+    </a>
+
+    <!-- View Timetable -->
+    <a href="{% url 'fees' %}" class="action-btn orange" style="text-decoration:none">
+        <div class="action-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18"></rect>
+            </svg>
+        </div>
+        <div class="action-content">
+            <h4>View Timetable</h4>
+            <p>Check your class schedule</p>
+        </div>
+    </a>
+
+</div>
 
     <script>
         function logout() {

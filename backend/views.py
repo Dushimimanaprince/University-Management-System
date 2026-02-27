@@ -1,9 +1,12 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import *
 import json
+from datetime import date
+from dateutil.relativedelta import relativedelta
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+
 
 @login_required(login_url='signin')
 def index(request):
@@ -11,14 +14,33 @@ def index(request):
     student= get_object_or_404(Student, user=request.user)
     enrollment= Enrollment.objects.filter(student=student).select_related('course')
 
-    credits= enrollment.aggregate(total=Sum('course__credits'))['total'] or 0
+    credits= enrollment.aggregate(total=Sum('course__credits'))['total'] or 0   
     total_fee= credits * 19200
+    finance= Finance.objects.filter(student=student)
+
 
     context={'student':student,
              'enrollment':enrollment,
-             'total_fee':total_fee}
+             'total_fee':total_fee,
+             'finances':finance}
 
     return render (request,'school/student.html',context)
+
+def approve_fees(request):
+    student= get_object_or_404(Student, user=request.user)
+    enrollment= Enrollment.objects.filter(student=student).select_related('course')
+
+    credits= enrollment.aggregate(total=Sum('course__credits'))['total'] or 0
+    total_fee= credits * 19200
+    due_date = date.today() + relativedelta(months=1)
+
+    Finance.objects.create(
+        student=student,
+        amount= total_fee,
+        due_date=due_date,
+
+    )
+    return redirect('index')
 
 @login_required
 def addCourse(request):
@@ -151,11 +173,6 @@ def courses(request):
     return render(request, 'school/courses.html', context)
 
 @login_required
-def timetable(request):
-    
-    return render(request ,'school/timetable.html')
-
-
 def course_grades(request,courseCode):
     course= get_object_or_404(Course, courseCode=courseCode)
 
@@ -245,6 +262,7 @@ def course_grades(request,courseCode):
 
     return render(request,'school/grades.html',context)
 
+@login_required
 def transcript(request):
     students= get_object_or_404(Student, user=request.user) 
     enrollment= Enrollment.objects.filter(student= students)
@@ -263,3 +281,4 @@ def transcript(request):
              'credits':credits}
 
     return render(request, 'school/transcript.html',context)
+    
