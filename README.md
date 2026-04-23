@@ -1,142 +1,77 @@
-# 🎓 University-Management-System  
-A powerful and modern University Management System built with **Django**, designed to handle Students, Lecturers, Admins, Courses, Enrollment, Grades, Finance, Authentication, and more.
+# 🎓 University Management System: Architectural Evolution
+
+This repository showcases the evolution of a comprehensive University Management System. It tracks the progression from a **Django Monolith** to modern **Decoupled Architectures** using **Django Rest Framework (DRF)**, **Spring Boot**, and **React**.
 
 ---
 
-## 🚀 Features
+## 🏗️ Project Structure & Stacks
+
+The system is organized into three distinct implementations to demonstrate full-stack versatility:
+
+| Stack | Backend | Frontend | Authentication |
+| :--- | :--- | :--- | :--- |
+| **Modern (Java)** | Spring Boot | React | JWT + Role-based Codes |
+| **Modern (Python)** | Django DRF | React | JWT + Role-based Codes |
+| **Legacy** | Django | HTML Templates | Session-based |
+
+---
+
+## 🔐 Advanced Authentication System (New)
+
+Both the **Spring Boot** and **Django DRF** versions implement a high-security, custom authentication workflow designed for institutional integrity:
+
+### 🎫 The "Unique Code" Strategy
+To prevent unauthorized registrations, the system uses a **Random Code Generator**:
+- **Student Code:** Required for student login/signup.
+- **Lecturer Code:** Required for academic staff.
+- **Admin Code:** Restricted to system overseers.
+
+**Workflow:**
+1. **Generation:** The system generates a unique, random alphanumeric code for every user.
+2. **Double-Factor Auth:** Authentication requires the **Unique Role Code** + **Password**.
+3. **JWT Integration:** Upon successful validation, a **JSON Web Token (JWT)** is issued to handle stateless authorization across the React frontend.
+
+---
+
+## 🚀 Features by Module
 
 ### 👨‍🎓 Student Module
-- 📌 Student Registration & Login  
-- 🏫 Department Assignment  
-- 📝 Course Enrollment  
-- 📊 View Grades  
-- 💰 Finance & Fees Tracking  
+- **Unique Code Auth:** Secure access via system-generated Student Codes.
+- **Course Management:** Enrollment and Department assignment.
+- **Academic Tracking:** Real-time grade viewing and progress monitoring.
+- **Finance:** Integrated fee tracking (Connects to [Micro-Finance API](https://github.com/Dushimimanaprince/Micro-Finance-Django)).
 
 ### 👨‍🏫 Lecturer Module
-- 🔐 Secure Login  
-- 🎓 Degree-level verification (A0 / Masters / PhD)  
-- 📚 Manage Courses & Student Grades  
+- **Academic Verification:** Role restricted by Degree levels (A0, Masters, PhD).
+- **Course Orchestration:** Manage curriculum and input student grades.
+- **Secure Access:** Authentication via unique Lecturer Code.
 
 ### 🛡️ Admin Module
-- 🧑‍💼 Manage Students, Lecturers, and Departments  
-- 🔑 Create & Validate Emails via EmailValidation table  
-- 🏢 Manage Faculties & Rooms  
-- ⚙️ Control overall system structure  
+- **System Governance:** Manage Faculties, Departments, Rooms, and Users.
+- **Email Validation:** Pre-approves emails for staff registration.
+- **Code Management:** Oversee the generation and validation of role-specific codes.
 
 ---
 
-## 🏗️ System Architecture
+## 🛠️ Tech Stack 
 
-### 🗂️ Models Included
-- 👤 `User` (Django Auth)
-- 🎓 `Student`
-- 🧑‍🏫 `Lecturer`
-- 🛡️ `Admin`
-- 🏛️ `Faculty`
-- 🏬 `Department`
-- 📘 `Course`
-- 📝 `Enrollment`
-- ⭐ `Grade`
-- ✉️ `EmailValidation`
-- 💸 `Finance`
-- 🚪 `Room`
+### **Backend(s)**
+- **Java:** Spring Boot, Spring Security (JWT), Hibernate/JPA.
+- **Python:** Django, Django Rest Framework (DRF), SimpleJWT.
+- **Database:** PostgreSQL / SQLite.
+
+### **Frontend**
+- **React.js:** Hooks (useState, useEffect), Axios for API consumption, React Router for protected routes.
+- **Styling:** CSS3 / Modern UI themes.
 
 ---
 
-## 📸 Screenshots (Optional)
-_Add screenshots of UI here if available_
+## 📂 Repository Organization
 
----
-
-## 🧰 Tech Stack
-
-| Technology | Description |
-|-----------|-------------|
-| 🐍 Python | Backend language |
-| 🌐 Django | Main web framework |
-| 🗄️ SQLite / PostgreSQL | Database |
-| 🎨 HTML, CSS, JS | Frontend |
-| 🔐 Django Auth | Authentication system |
-
----
-
-## ⚙️ Installation
-
-```bash
-git clone https://github.com/yourusername/University-Management-System.git
-cd University-Management-System
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
-```
-
----
-
-## 🧪 Running the Project
-```bash
-python manage.py runserver
-```
-App runs on:
-```
-http://127.0.0.1:8000/
-```
-
----
-
-## 👥 Roles in the System
-
-### 🎓 Student
-- Registers only with Student role  
-- Must select Department  
-- Cannot set degree  
-
-### 👨‍🏫 Lecturer
-- Must be pre-validated via EmailValidation  
-- Must select Degree (A0, Masters, PhD)  
-
-### 🛡️ Admin
-- Creates, manages, approves all data  
-
----
-
-## 🔒 Email Validation Workflow
-
-✔ Admin adds lecturer/admin email  
-✔ User signs up  
-✔ System checks if email exists in EmailValidation  
-✔ Assigns correct role  
-
----
-
-## 🆕 February 2026 Enhancements
-
-- Integrated a dedicated micro-finance REST API for payments
-- Improved transaction handling and error feedback
-- Added atomic wallet updates and finance status tracking
-- Fixed redirect + POST issues with Django settings
-- Micro-Finance repo:[Link Text](https://github.com/Dushimimanaprince/Micro-Finance-Django)
-
----
-
-## 🤝 Contributing
-
-Pull requests are welcome!  
-Please open an issue first to discuss what you would like to change.
-
----
-
-## 📄 License
-This project is under the **MIT License**.
-
----
-
-## ⭐ Support the Project
-
-If you like this project, don't forget to **star the repository** 🌟
-
----
-
-## 👤 Author
-**Dushimimana Prince**
-🇷🇼 Rwanda  
-Backend Developer | Django | Python
+```text
+University-Management-System/
+├── backend-java-springboot/   # Spring Boot REST API
+├── frontend-react-java/       # React UI for Spring Boot
+├── backend-django-drf/        # Python/Django REST API
+├── frontend-react-django/     # React UI for Django DRF
+└── legacy-django-html/        # Original Django Monolith (HTML Templates)
