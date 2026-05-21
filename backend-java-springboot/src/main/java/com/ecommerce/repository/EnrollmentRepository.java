@@ -18,6 +18,7 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,UUID> {
     List<Enrollment> findByCourse(Course course);
     List<Enrollment> findByStudentAndActiveTrue(Student student);
     List<Enrollment> findByStudentAndActiveFalse(Student student);
+    List<Enrollment> findByStudentAndSemesterAndActiveTrue(Student student, Semester semester);
 
     boolean existsByStudentAndCourseAndSemester(Student student, Course course,Semester semester);
 

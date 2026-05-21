@@ -11,6 +11,7 @@ import com.ecommerce.models.Semester;
 import com.ecommerce.models.Student;
 import com.ecommerce.repository.CourseRepository;
 import com.ecommerce.repository.EnrollmentRepository;
+import com.ecommerce.repository.PaymentRepository;
 import com.ecommerce.repository.SemesterRepository;
 import com.ecommerce.repository.StudentRepository;
 
@@ -25,6 +26,7 @@ public class EnrollmentService {
     private final CourseRepository      courseRepository;
     private final SemesterRepository    semesterRepository;
     private final HistoryService        historyService;
+    private final PaymentRepository     paymentRepository;
 
     public Enrollment enrollStudent(UUID courseId,UUID semesterId, String studentCode) {
 
@@ -40,6 +42,11 @@ public class EnrollmentService {
 
         if (enrollmentRepository.existsByStudentAndCourseAndSemester(student, course,semester)) {
             throw new RuntimeException("Student is already enrolled in this course in This Semester");
+        }
+
+        if (paymentRepository.existsByStudentAndSemesterAndActiveTrue(student, semester)){
+            throw new RuntimeException("You cannot enroll in new courses this semester because you already have an active fee payment. " +
+                                        "You can enroll in courses for another semester.");
         }
 
         Enrollment enrollment = new Enrollment();

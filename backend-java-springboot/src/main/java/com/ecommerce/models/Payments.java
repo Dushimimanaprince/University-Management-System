@@ -30,6 +30,7 @@ public class Payments {
     private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private UUID requestId;
 
     @PrePersist
     public void prePersist(){

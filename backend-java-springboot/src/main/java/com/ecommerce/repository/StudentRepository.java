@@ -17,5 +17,6 @@ public interface StudentRepository extends JpaRepository<Student,UUID>{
     Optional<Student> findByStudentCode(String studentCode);
     List<Student> findByDepartment(Department department);
     Optional<Student> findByActive(boolean active);
+    Optional<Student> findByEmail(String email);
    
 }
