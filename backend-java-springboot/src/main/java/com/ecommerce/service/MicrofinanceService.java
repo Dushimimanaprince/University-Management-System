@@ -2,6 +2,7 @@ package com.ecommerce.service;
 
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -60,7 +61,18 @@ public class MicrofinanceService {
         );
         return (String) res.getBody().get("request_id");
     }
-
     
+    public  String checkRequestStatus(UUID requestId){
+        String url = baseUrl + "/transactions/service/request-status/" + requestId + "/";
+
+        try{
+            ResponseEntity<Map> res= restTemplate.exchange(
+                url, HttpMethod.GET, new HttpEntity<>(headers()), Map.class
+            );
+            return (String) res.getBody().get("status");
+        }catch(Exception e){
+            return null;
+        }
+    }
     
 }
