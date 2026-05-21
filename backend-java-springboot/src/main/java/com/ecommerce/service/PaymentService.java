@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.models.Enrollment;
@@ -29,6 +30,8 @@ public class PaymentService {
 
     private static final float Fee_Per_Credit= 700f;
 
+
+    @PreAuthorize("hasRole('STUDENT')")
     public Payments initiateFeePayments(String studentCode, UUID semesterId, String microfinanceUsername){
 
         Student student = studentRepository.findByStudentCode(studentCode)
@@ -73,6 +76,7 @@ public class PaymentService {
 
     }
 
+    @PreAuthorize("hasRole('STUDENT')")
     public Payments getMyPayment(String studentCode, UUID semesterId) {
 
         Student student = studentRepository.findByStudentCode(studentCode)
@@ -83,6 +87,20 @@ public class PaymentService {
 
         return paymentRepository.findByStudentAndSemester(student, semester)
             .orElseThrow(() -> new RuntimeException("No payment found for this semester"));
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    public List<Payments> getStudentPayments(UUID studentId){
+
+        Student student= studentRepository.findById(studentId)
+            .orElseThrow(()-> new RuntimeException("Student not Found"));
+
+        return paymentRepository.findByStudent(student);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Payments> getAllPayments(){
+        return paymentRepository.findAll();
     }
 
 }

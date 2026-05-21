@@ -17,4 +17,6 @@ public interface PaymentRepository extends JpaRepository<Payments,UUID> {
         Optional<Payments> findByStudentAndSemester(Student student, Semester semester);
 
         List<Payments> findByStatus(String status);
+
+        List<Payments> findByStudent(Student student);
 }
