@@ -165,10 +165,10 @@ const StudentPayment = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-zinc-500 text-xs">
-                                        {new Date(payment.createdAt).toLocaleDateString()}
+                                        {new Date(payment.createdAt).toLocaleString()}
                                     </td>
                                     <td className="px-6 py-4 text-teal-500 text-xs">
-                                        {new Date(payment.updatedAt).toLocaleDateString()}
+                                        {new Date(payment.updatedAt).toLocaleString()}
                                     </td>
                                 </tr>
                             ))}

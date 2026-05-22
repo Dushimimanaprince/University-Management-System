@@ -11,6 +11,7 @@ import History from "./pages/admin/History";
 import UserSet from "./pages/admin/UserSet";
 import Timetable from "./pages/student/Timetable";
 import StudentPayment from "./pages/student/StudentPayment";
+import PaymentHistory from "./pages/admin/PaymentHistory";
 
 
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/admin/user-set" element={<UserSet />} />
         <Route path="/student/timetable" element={<Timetable />} />
         <Route path="/student/payments" element={<StudentPayment />} />
+        <Route path="/admin/payments" element={<PaymentHistory />} />
 
         
 

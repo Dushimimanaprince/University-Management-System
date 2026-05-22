@@ -177,6 +177,14 @@ const AdminDashboard = () => {
                              hover:border-red-700 transition-all shadow-lg shadow-teal-900/30">
                             🔌Set user On/Off
                         </button>
+
+
+                        <button
+                            onClick={() => navigate("/admin/payments")}
+                            className="flex items-center gap-4 bg-blue-700 hover:bg-blue-950 text-white text-sm font-medium px-5 py-3 rounded-xl border border-blue-700
+                             hover:border-blue-700 transition-all shadow-lg shadow-blue-900/30">
+                            ♾️ Payments
+                        </button>
                         
                     </div>
                 </div>
