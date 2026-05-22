@@ -10,6 +10,7 @@ import Courses from "./pages/admin/Courses";
 import History from "./pages/admin/History";
 import UserSet from "./pages/admin/UserSet";
 import Timetable from "./pages/student/Timetable";
+import StudentPayment from "./pages/student/StudentPayment";
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin/records" element={<History />} />
         <Route path="/admin/user-set" element={<UserSet />} />
         <Route path="/student/timetable" element={<Timetable />} />
+        <Route path="/student/payments" element={<StudentPayment />} />
 
         
 

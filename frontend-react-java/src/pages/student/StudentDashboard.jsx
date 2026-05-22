@@ -211,17 +211,23 @@ const StudentProfile = () => {
       )}
 
       {/* Top Bar */}
-      <div className="flex items-center justify-between mb-8 max-w-7xl mx-auto">
+    <div className="flex items-center justify-between mb-8 max-w-7xl mx-auto">
         <h1 className="text-lg font-semibold text-white tracking-tight">Student Dashboard</h1>
-        <button onClick={() => setEnrollModalOpen(true)}
-          className="text-sm text-white border bg-blue-900 px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors">
-          Enroll in Course
-        </button>
-        <button onClick={handleLogout}
-          className="text-sm text-[#888888] border border-[#2a2a2a] px-4 py-2 rounded-lg hover:border-[#555555] hover:text-[#e5e5e5] transition-colors">
-          Logout
-        </button>
-      </div>
+        <div className="flex items-center gap-3">
+            <button onClick={() => setEnrollModalOpen(true)}
+                className="text-sm text-white border bg-blue-900 px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                Enroll in Course
+            </button>
+            <button onClick={() => navigate("/student/payments")}
+                className="text-sm text-white border bg-green-900 px-4 py-2 rounded-lg hover:bg-green-800 transition-colors">
+                🏦 Payments
+            </button>
+            <button onClick={handleLogout}
+                className="text-sm text-[#888888] border border-[#2a2a2a] px-4 py-2 rounded-lg hover:border-[#555555] hover:text-[#e5e5e5] transition-colors">
+                Logout
+            </button>
+        </div>
+    </div>
 
       {/* Main Layout */}
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 items-start">
